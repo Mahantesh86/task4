@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechStore - Premium Electronics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #f59e0b;
+            --success-color: #10b981;
+            --danger-color: #ef4444;
+            --dark-color: #1f2937;
+            --light-color: #f8fafc;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 2rem;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 3rem 0.75rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: calc(var(--border-radius) - 2px);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-btn:hover {
+            background: var(--secondary-color);
+        }
+
+        .cart-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cart-btn {
+            position: relative;
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .cart-btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--danger-color);
+            color: var(--white);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        /* Sidebar Filters */
+        .sidebar {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .filter-section {
+            margin-bottom: 2rem;
+        }
+
+        .filter-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .filter-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .filter-option:hover {
+            background: var(--gray-50);
+        }
+
+        .filter-option input[type="checkbox"],
+        .filter-option input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-color);
+        }
+
+        .filter-option label {
+            flex: 1;
+            cursor: pointer;
+            color: var(--gray-700);
+        }
+
+        .filter-count {
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+
+        .price-range {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .price-inputs {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .price-input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .price-slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--gray-200);
+            outline: none;
+            accent-color: var(--primary-color);
+        }
+
+        .clear-filters {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--gray-100);
+            border: 2px solid var(--gray-200);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--gray-700);
+            transition: var(--transition);
+        }
+
+        .clear-filters:hover {
+            background: var(--gray-200);
+        }
+
+        /* Products Area */
+        .products-area {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            background: var(--white);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .results-info {
+            color: var(--gray-600);
+        }
+
+        .sort-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .sort-select {
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            background: var(--white);
+            cursor: pointer;
+        }
+
+        .view-toggle {
+            display: flex;
+            background: var(--gray-100);
+            border-radius: 8px;
+            padding: 0.25rem;
+        }
+
+        .view-btn {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .view-btn.active {
+            background: var(--white);
+            box-shadow: var(--shadow);
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .products-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: var(--gray-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+            background: var(--danger-color);
+            color: var(--white);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .product-info {
+            padding: 1rem;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+            line-height: 1.4;
+        }
+
+        .product-description {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .current-price {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .original-price {
+            font-size: 1rem;
+            color: var(--gray-500);
+            text-decoration: line-through;
+        }
+
+        .discount {
+            background: var(--success-color);
+            color: var(--white);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stars {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .star {
+            color: var(--accent-color);
+        }
+
+        .star.empty {
+            color: var(--gray-300);
+        }
+
+        .rating-text {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-color);
+        }
+
+        .btn-secondary {
+            background: var(--gray-100);
+            color: var(--gray-700);
+            padding: 0.75rem;
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-200);
+        }
+
+        /* List View Styles */
+        .product-card.list-view {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .product-card.list-view .product-image {
+            width: 200px;
+            height: 150px;
+            flex-shrink: 0;
+        }
+
+        .product-card.list-view .product-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Loading States */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            color: var(--gray-500);
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--gray-200);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--gray-500);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 2px solid var(--gray-200);
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-500);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 250px 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .search-bar {
+                margin: 0;
+                max-width: none;
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+                order: -1;
+            }
+
+            .products-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .sort-controls {
+                justify-content: space-between;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .product-card.list-view {
+                flex-direction: column;
+            }
+
+            .product-card.list-view .product-image {
+                width: 100%;
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">🛍️ TechStore</div>
+                <div class="search-bar">
+                    <input type="text" class="search-input" id="search-input" placeholder="Search products...">
+                    <button class="search-btn" id="search-btn">🔍</button>
+                </div>
+                <div class="cart-info">
+                    <button class="cart-btn" id="cart-btn">
+                        🛒 Cart
+                        <span class="cart-count" id="cart-count">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="main-content">
+            <!-- Sidebar Filters -->
+            <aside class="sidebar">
+                <div class="filter-section">
+                    <h3 class="filter-title">Categories</h3>
+                    <div class="filter-group" id="category-filters">
+                        <!-- Categories will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3 class="filter-title">Price Range</h3>
+                    <div class="price-range">
+                        <div class="price-inputs">
+                            <input type="number" class="price-input" id="min-price" placeholder="Min" min="0">
+                            <span>-</span>
+                            <input type="number" class="price-input" id="max-price" placeholder="Max" min="0">
+                        </div>
+                        <input type="range" class="price-slider" id="price-slider" min="0" max="5000" value="5000">
+                        <div class="price-display">
+                            <span>$0</span>
+                            <span id="max-price-display">$5000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3 class="filter-title">Brand</h3>
+                    <div class="filter-group" id="brand-filters">
+                        <!-- Brands will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3 class="filter-title">Rating</h3>
+                    <div class="filter-group" id="rating-filters">
+                        <div class="filter-option">
+                            <input type="radio" id="rating-all" name="rating" value="all" checked>
+                            <label for="rating-all">All Ratings</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="radio" id="rating-4" name="rating" value="4">
+                            <label for="rating-4">⭐⭐⭐⭐ & Up</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="radio" id="rating-3" name="rating" value="3">
+                            <label for="rating-3">⭐⭐⭐ & Up</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="radio" id="rating-2" name="rating" value="2">
+                            <label for="rating-2">⭐⭐ & Up</label>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="clear-filters" id="clear-filters">Clear All Filters</button>
+            </aside>
+
+            <!-- Products Area -->
+            <div class="products-area">
+                <div class="products-header">
+                    <div class="results-info" id="results-info">
+                        Showing 0 products
+                    </div>
+                    <div class="sort-controls">
+                        <select class="sort-select" id="sort-select">
+                            <option value="name-asc">Name A-Z</option>
+                            <option value="name-desc">Name Z-A</option>
+                            <option value="price-asc">Price Low to High</option>
+                            <option value="price-desc">Price High to Low</option>
+                            <option value="rating-desc">Rating High to Low</option>
+                            <option value="rating-asc">Rating Low to High</option>
+                            <option value="newest">Newest First</option>
+                        </select>
+                        <div class="view-toggle">
+                            <button class="view-btn active" id="grid-view" data-view="grid">⊞</button>
+                            <button class="view-btn" id="list-view" data-view="list">☰</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="products-grid" id="products-container">
+                    <!-- Products will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Product Modal -->
+    <div class="modal" id="product-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title">Product Details</h2>
+                <button class="close-btn" id="close-modal">×</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Product details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class ProductStore {
+            constructor() {
+                this.products = this.generateSampleProducts();
+                this.filteredProducts = [...this.products];
+                this.cart = [];
+                this.currentView = 'grid';
+                this.filters = {
+                    search: '',
+                    categories: [],
+                    brands: [],
+                    minPrice: 0,
+                    maxPrice: 5000,
+                    rating: 'all'
+                };
+                this.sortBy = 'name-asc';
+                
+                this.initializeApp();
+                this.bindEvents();
+            }
+
+            generateSampleProducts() {
+                const categories = ['Smartphones', 'Laptops', 'Tablets', 'Headphones', 'Smartwatches', 'Cameras'];
+                const brands = ['Apple', 'Samsung', 'Sony', 'Microsoft', 'Google', 'Dell', 'HP', 'Lenovo'];
+                
+                const products = [
+                    {
+                        id: 1,
+                        name: 'iPhone 15 Pro Max',
+                        description: 'Latest iPhone with A17 Pro chip, titanium design, and advanced camera system',
+                        price: 1199,
+                        originalPrice: 1299,
+                        category: 'Smartphones',
+                        brand: 'Apple',
+                        rating: 4.8,
+                        reviews: 1247,
+                        image: '📱',
+                        inStock: true,
+                        isNew: true,
+                        discount: 8
+                    },
+                    {
+                        id: 2,
+                        name: 'MacBook Pro 16"',
+                        description: 'Powerful laptop with M3 Pro chip, perfect for professional work',
+                        price: 2499,
+                        originalPrice: 2699,
+                        category: 'Laptops',
+                        brand: 'Apple',
+                        rating: 4.9,
+                        reviews: 892,
+                        image: '💻',
+                        inStock: true,
+                        isNew: false,
+                        discount: 7
+                    },
+                    {
+                        id: 3,
+                        name: 'Samsung Galaxy S24 Ultra',
+                        description: 'Premium Android phone with S-Pen and exceptional camera capabilities',
+                        price: 1299,
+                        originalPrice: 1399,
+                        category: 'Smartphones',
+                        brand: 'Samsung',
+                        rating: 4.7,
+                        reviews: 956,
+                        image: '📱',
+                        inStock: true,
+                        isNew: true,
+                        discount: 7
+                    },
+                    {
+                        id: 4,
+                        name: 'iPad Pro 12.9"',
+                        description: 'Professional tablet with M2 chip and Liquid Retina XDR display',
+                        price: 1099,
+                        originalPrice: 1199,
+                        category: 'Tablets',
+                        brand: 'Apple',
+                        rating: 4.6,
+                        reviews: 634,
+                        image: '📟',
+                        inStock: true,
+                        isNew: false,
+                        discount: 8
+                    },
+                    {
+                        id: 5,
+                        name: 'Sony WH-1000XM5',
+                        description: 'Industry-leading noise canceling headphones with exceptional sound quality',
+                        price: 399,
+                        originalPrice: 449,
+                        category: 'Headphones',
+                        brand: 'Sony',
+                        rating: 4.5,
+                        reviews: 1523,
+                        image: '🎧',
+                        inStock: true,
+                        isNew: false,
+                        discount: 11
+                    },
+                    {
+                        id: 6,
+                        name: 'Apple Watch Series 9',
+                        description: 'Advanced smartwatch with health monitoring and fitness tracking',
+                        price: 429,
+                        originalPrice: 449,
+                        category: 'Smartwatches',
+                        brand: 'Apple',
+                        rating: 4.4,
+                        reviews: 789,
+                        image: '⌚',
+                        inStock: true,
+                        isNew: true,
+                        discount: 4
+                    },
+                    {
+                        id: 7,
+                        name: 'Dell XPS 13',
+                        description: 'Ultra-portable laptop with stunning InfinityEdge display',
+                        price: 999,
+                        originalPrice: 1199,
+                        category: 'Laptops',
+                        brand: 'Dell',
+                        rating: 4.3,
+                        reviews: 445,
+                        image: '💻',
+                        inStock: true,
+                        isNew: false,
+                        discount: 17
+                    },
+                    {
+                        id: 8,
+                        name: 'Sony Alpha A7 IV',
+                        description: 'Full-frame mirrorless camera with 33MP sensor and 4K video',
+                        price: 2498,
+                        originalPrice: 2698,
+                        category: 'Cameras',
+                        brand: 'Sony',
+                        rating: 4.8,
+                        reviews: 234,
+                        image: '📷',
+                        inStock: false,
+                        isNew: false,
+                        discount: 7
+                    },
+                    {
+                        id: 9,
+                        name: 'Samsung Galaxy Tab S9+',
+                        description: 'Premium Android tablet with S-Pen and AMOLED display',
+                        price: 999,
+                        originalPrice: 1099,
+                        category: 'Tablets',
+                        brand: 'Samsung',
+                        rating: 4.2,
+                        reviews: 312,
+                        image: '📟',
+                        inStock: true,
+                        isNew: true,
+                        discount: 9
+                    },
+                    {
+                        id: 10,
+                        name: 'Google Pixel Buds Pro',
+                        description: 'Premium wireless earbuds with active noise cancellation',
+                        price: 199,
+                        originalPrice: 229,
+                        category: 'Headphones',
+                        brand: 'Google',
+                        rating: 4.1,
+                        reviews: 667,
+                        image: '🎧',
+                        inStock: true,
+                        isNew: false,
+                        discount: 13
+                    },
+                    {
+                        id: 11,
+                        name: 'Microsoft Surface Laptop 5',
+                        description: 'Sleek Windows laptop with premium build quality and performance',
+                        price: 1299,
+                        originalPrice: 1499,
+                        category: 'Laptops',
+                        brand: 'Microsoft',
+                        rating: 4.4,
+                        reviews: 198,
+                        image: '💻',
+                        inStock: true,
+                        isNew: false,
+                        discount: 13
+                    },
+                    {
+                        id: 12,
+                        name: 'Samsung Galaxy Watch 6',
+                        description: 'Advanced Android smartwatch with comprehensive health tracking',
+                        price: 329,
+                        originalPrice: 379,
+                        category: 'Smartwatches',
+                        brand: 'Samsung',
+                        rating: 4.0,
+                        reviews: 421,
+                        image: '⌚',
+                        inStock: true,
+                        isNew: true,
+                        discount: 13
+                    }
+                ];
+
+                return products;
+            }
+
+            initializeApp() {
+                this.populateFilters();
+                this.applyFilters();
+                this.renderProducts();
+                this.updateResultsInfo();
+                this.updateCartCount();
+            }
+
+            bindEvents() {
+                // Search
+                document.getElementById('search-input').addEventListener('input', (e) => {
+                    this.filters.search = e.target.value.toLowerCase();
+                    this.applyFilters();
+                });
+
+                document.getElementById('search-btn').addEventListener('click', () => {
+                    this.applyFilters();
+                });
+
+                // Sort
+                document.getElementById('sort-select').addEventListener('change', (e) => {
+                    this.sortBy = e.target.value;
+                    this.sortProducts();
+                    this.renderProducts();
+                });
+
+                // View toggle
+                document.querySelectorAll('.view-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.currentView = e.target.dataset.view;
+                        this.updateViewButtons();
+                        this.renderProducts();
+                    });
+                });
+
+                // Price range
+                document.getElementById('min-price').addEventListener('input', () => this.handlePriceFilter());
+                document.getElementById('max-price').addEventListener('input', () => this.handlePriceFilter());
+                document.getElementById('price-slider').addEventListener('input', (e) => {
+                    this.filters.maxPrice = parseInt(e.target.value);
+                    document.getElementById('max-price-display').textContent = `${e.target.value}`;
+                    document.getElementById('max-price').value = e.target.value;
+                    this.applyFilters();
+                });
+
+                // Rating filter
+                document.querySelectorAll('input[name="rating"]').forEach(radio => {
+                    radio.addEventListener('change', (e) => {
+                        this.filters.rating = e.target.value;
+                        this.applyFilters();
+                    });
+                });
+
+                // Clear filters
+                document.getElementById('clear-filters').addEventListener('click', () => {
+                    this.clearAllFilters();
+                });
+
+                // Modal
+                document.getElementById('close-modal').addEventListener('click', () => {
+                    this.closeModal();
+                });
+
+                document.getElementById('product-modal').addEventListener('click', (e) => {
+                    if (e.target.id === 'product-modal') {
+                        this.closeModal();
+                    }
+                });
+
+                // Cart
+                document.getElementById('cart-btn').addEventListener('click', () => {
+                    this.showCart();
+                });
+            }
+
+            populateFilters() {
+                // Categories
+                const categories = [...new Set(this.products.map(p => p.category))];
+                const categoryContainer = document.getElementById('category-filters');
+                categoryContainer.innerHTML = categories.map(category => {
+                    const count = this.products.filter(p => p.category === category).length;
+                    return `
+                        <div class="filter-option">
+                            <input type="checkbox" id="cat-${category}" value="${category}" data-filter="categories">
+                            <label for="cat-${category}">${category}</label>
+                            <span class="filter-count">(${count})</span>
+                        </div>
+                    `;
+                }).join('');
+
+                // Brands
+                const brands = [...new Set(this.products.map(p => p.brand))];
+                const brandContainer = document.getElementById('brand-filters');
+                brandContainer.innerHTML = brands.map(brand => {
+                    const count = this.products.filter(p => p.brand === brand).length;
+                    return `
+                        <div class="filter-option">
+                            <input type="checkbox" id="brand-${brand}" value="${brand}" data-filter="brands">
+                            <label for="brand-${brand}">${brand}</label>
+                            <span class="filter-count">(${count})</span>
+                        </div>
+                    `;
+                }).join('');
+
+                // Bind filter events
+                document.querySelectorAll('input[data-filter]').forEach(checkbox => {
+                    checkbox.addEventListener('change', (e) => {
+                        const filterType = e.target.dataset.filter;
+                        const value = e.target.value;
+                        
+                        if (e.target.checked) {
+                            this.filters[filterType].push(value);
+                        } else {
+                            this.filters[filterType] = this.filters[filterType].filter(item => item !== value);
+                        }
+                        
+                        this.applyFilters();
+                    });
+                });
+            }
+
+            handlePriceFilter() {
+                const minPrice = parseInt(document.getElementById('min-price').value) || 0;
+                const maxPrice = parseInt(document.getElementById('max-price').value) || 5000;
+                
+                this.filters.minPrice = minPrice;
+                this.filters.maxPrice = maxPrice;
+                
+                document.getElementById('price-slider').value = maxPrice;
+                document.getElementById('max-price-display').textContent = `${maxPrice}`;
+                
+                this.applyFilters();
+            }
+
+            applyFilters() {
+                this.filteredProducts = this.products.filter(product => {
+                    // Search filter
+                    const matchesSearch = !this.filters.search || 
+                        product.name.toLowerCase().includes(this.filters.search) ||
+                        product.description.toLowerCase().includes(this.filters.search) ||
+                        product.brand.toLowerCase().includes(this.filters.search);
+
+                    // Category filter
+                    const matchesCategory = this.filters.categories.length === 0 || 
+                        this.filters.categories.includes(product.category);
+
+                    // Brand filter
+                    const matchesBrand = this.filters.brands.length === 0 || 
+                        this.filters.brands.includes(product.brand);
+
+                    // Price filter
+                    const matchesPrice = product.price >= this.filters.minPrice && 
+                        product.price <= this.filters.maxPrice;
+
+                    // Rating filter
+                    const matchesRating = this.filters.rating === 'all' || 
+                        product.rating >= parseInt(this.filters.rating);
+
+                    return matchesSearch && matchesCategory && matchesBrand && matchesPrice && matchesRating;
+                });
+
+                this.sortProducts();
+                this.renderProducts();
+                this.updateResultsInfo();
+            }
+
+            sortProducts() {
+                const [field, direction] = this.sortBy.split('-');
+                
+                this.filteredProducts.sort((a, b) => {
+                    let aValue, bValue;
+                    
+                    switch (field) {
+                        case 'name':
+                            aValue = a.name.toLowerCase();
+                            bValue = b.name.toLowerCase();
+                            break;
+                        case 'price':
+                            aValue = a.price;
+                            bValue = b.price;
+                            break;
+                        case 'rating':
+                            aValue = a.rating;
+                            bValue = b.rating;
+                            break;
+                        case 'newest':
+                            aValue = a.isNew ? 1 : 0;
+                            bValue = b.isNew ? 1 : 0;
+                            break;
+                        default:
+                            return 0;
+                    }
+                    
+                    if (direction === 'asc') {
+                        return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+                    } else {
+                        return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
+                    }
+                });
+            }
+
+            renderProducts() {
+                const container = document.getElementById('products-container');
+                container.className = this.currentView === 'grid' ? 'products-grid' : 'products-list';
+
+                if (this.filteredProducts.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-icon">🔍</div>
+                            <h3>No products found</h3>
+                            <p>Try adjusting your filters or search terms</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = this.filteredProducts.map(product => 
+                    this.createProductCard(product)
+                ).join('');
+
+                // Bind product events
+                this.bindProductEvents();
+            }
+
+            createProductCard(product) {
+                const stars = this.generateStars(product.rating);
+                const viewClass = this.currentView === 'list' ? 'list-view' : '';
+                
+                return `
+                    <div class="product-card ${viewClass}" data-product-id="${product.id}">
+                        <div class="product-image">
+                            ${product.image}
+                            ${product.isNew ? '<div class="product-badge">NEW</div>' : ''}
+                            ${!product.inStock ? '<div class="product-badge" style="background: var(--gray-500);">OUT OF STOCK</div>' : ''}
+                        </div>
+                        <div class="product-info">
+                            <div>
+                                <h3 class="product-title">${product.name}</h3>
+                                <p class="product-description">${product.description}</p>
+                                <div class="product-price">
+                                    <span class="current-price">${product.price}</span>
+                                    ${product.originalPrice > product.price ? `<span class="original-price">${product.originalPrice}</span>` : ''}
+                                    ${product.discount ? `<span class="discount">${product.discount}% OFF</span>` : ''}
+                                </div>
+                                <div class="product-rating">
+                                    <div class="stars">${stars}</div>
+                                    <span class="rating-text">${product.rating} (${product.reviews} reviews)</span>
+                                </div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn btn-primary" onclick="productStore.addToCart(${product.id})" ${!product.inStock ? 'disabled' : ''}>
+                                    🛒 ${product.inStock ? 'Add to Cart' : 'Out of Stock'}
+                                </button>
+                                <button class="btn btn-secondary" onclick="productStore.toggleWishlist(${product.id})" title="Add to Wishlist">
+                                    ❤️
+                                </button>
+                                <button class="btn btn-secondary" onclick="productStore.quickView(${product.id})" title="Quick View">
+                                    👁️
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            generateStars(rating) {
+                const fullStars = Math.floor(rating);
+                const hasHalfStar = rating % 1 !== 0;
+                const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+                
+                let stars = '';
+                for (let i = 0; i < fullStars; i++) stars += '<span class="star">⭐</span>';
+                if (hasHalfStar) stars += '<span class="star">⭐</span>';
+                for (let i = 0; i < emptyStars; i++) stars += '<span class="star empty">⭐</span>';
+                
+                return stars;
+            }
+
+            bindProductEvents() {
+                document.querySelectorAll('.product-card').forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        if (!e.target.closest('button')) {
+                            const productId = parseInt(card.dataset.productId);
+                            this.showProductDetails(productId);
+                        }
+                    });
+                });
+            }
+
+            addToCart(productId) {
+                const product = this.products.find(p => p.id === productId);
+                if (!product || !product.inStock) return;
+
+                const existingItem = this.cart.find(item => item.id === productId);
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    this.cart.push({ ...product, quantity: 1 });
+                }
+
+                this.updateCartCount();
+                this.showNotification(`${product.name} added to cart!`);
+            }
+
+            toggleWishlist(productId) {
+                // Simulate wishlist functionality
+                this.showNotification('Added to wishlist!');
+            }
+
+            quickView(productId) {
+                this.showProductDetails(productId);
+            }
+
+            showProductDetails(productId) {
+                const product = this.products.find(p => p.id === productId);
+                if (!product) return;
+
+                const modal = document.getElementById('product-modal');
+                const modalTitle = document.getElementById('modal-title');
+                const modalBody = document.getElementById('modal-body');
+
+                modalTitle.textContent = product.name;
+                modalBody.innerHTML = `
+                    <div style="display: flex; gap: 2rem; margin-bottom: 2rem;">
+                        <div style="font-size: 6rem; min-width: 120px; text-align: center;">
+                            ${product.image}
+                        </div>
+                        <div style="flex: 1;">
+                            <p style="margin-bottom: 1rem; color: var(--gray-600);">${product.description}</p>
+                            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                <span style="font-size: 1.5rem; font-weight: bold; color: var(--primary-color);">${product.price}</span>
+                                ${product.originalPrice > product.price ? `<span style="text-decoration: line-through; color: var(--gray-500);">${product.originalPrice}</span>` : ''}
+                                ${product.discount ? `<span style="background: var(--success-color); color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">${product.discount}% OFF</span>` : ''}
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+                                <div>${this.generateStars(product.rating)}</div>
+                                <span>${product.rating} (${product.reviews} reviews)</span>
+                            </div>
+                            <div style="margin-bottom: 1rem;">
+                                <strong>Brand:</strong> ${product.brand}<br>
+                                <strong>Category:</strong> ${product.category}<br>
+                                <strong>Stock:</strong> ${product.inStock ? 'In Stock' : 'Out of Stock'}
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 1rem;">
+                        <button class="btn btn-primary" onclick="productStore.addToCart(${product.id}); productStore.closeModal();" ${!product.inStock ? 'disabled' : ''}style="flex: 1;">
+                            🛒 ${product.inStock ? 'Add to Cart' : 'Out of Stock'}
+                        </button>
+                        <button class="btn btn-secondary" onclick="productStore.toggleWishlist(${product.id})">
+                            ❤️ Wishlist
+                        </button>
+                    </div>
+                `;
+
+                modal.classList.add('active');
+            }
+
+            closeModal() {
+                document.getElementById('product-modal').classList.remove('active');
+            }
+
+            updateViewButtons() {
+                document.querySelectorAll('.view-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.view === this.currentView);
+                });
+            }
+
+            updateResultsInfo() {
+                const info = document.getElementById('results-info');
+                const total = this.filteredProducts.length;
+                info.textContent = `Showing ${total} product${total !== 1 ? 's' : ''}`;
+            }
+
+            updateCartCount() {
+                const count = this.cart.reduce((sum, item) => sum + item.quantity, 0);
+                document.getElementById('cart-count').textContent = count;
+                document.getElementById('cart-count').style.display = count > 0 ? 'flex' : 'none';
+            }
+
+            showCart() {
+                if (this.cart.length === 0) {
+                    alert('Your cart is empty!');
+                    return;
+                }
+
+                const cartItems = this.cart.map(item => 
+                    `${item.name} - Quantity: ${item.quantity} - ${item.price * item.quantity}`
+                ).join('\n');
+                
+                const total = this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                alert(`Cart Items:\n${cartItems}\n\nTotal: ${total}`);
+            }
+
+            clearAllFilters() {
+                // Reset all filters
+                this.filters = {
+                    search: '',
+                    categories: [],
+                    brands: [],
+                    minPrice: 0,
+                    maxPrice: 5000,
+                    rating: 'all'
+                };
+
+                // Reset UI
+                document.getElementById('search-input').value = '';
+                document.getElementById('min-price').value = '';
+                document.getElementById('max-price').value = '';
+                document.getElementById('price-slider').value = 5000;
+                document.getElementById('max-price-display').textContent = '$5000';
+                document.getElementById('rating-all').checked = true;
+                
+                document.querySelectorAll('input[data-filter]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+
+                this.applyFilters();
+            }
+
+            showNotification(message) {
+                // Simple notification - could be enhanced with a toast system
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: var(--success-color);
+                    color: white;
+                    padding: 1rem 2rem;
+                    border-radius: var(--border-radius);
+                    box-shadow: var(--shadow-lg);
+                    z-index: 10000;
+                    animation: slideIn 0.3s ease;
+                `;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            }
+        }
+
+        // Initialize the store
+        const productStore = new ProductStore();
+
+        // Add some keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Escape to close modal
+            if (e.key === 'Escape') {
+                productStore.closeModal();
+            }
+            
+            // Ctrl/Cmd + K to focus search
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                document.getElementById('search-input').focus();
+            }
+        });
+    </script>
+</body>
+</html>
